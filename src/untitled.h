@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -25,8 +26,11 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QPushButton *pushButton;
-    QPushButton *pushButton_2;
     QLabel *label;
+    QDoubleSpinBox *doubleSpinBox_X;
+    QDoubleSpinBox *doubleSpinBox_Y;
+    QLabel *label_2;
+    QLabel *label_3;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -39,13 +43,22 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(30, 50, 89, 25));
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(30, 110, 89, 25));
+        pushButton->setGeometry(QRect(30, 200, 89, 41));
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(140, 40, 640, 480));
+        doubleSpinBox_X = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_X->setObjectName(QString::fromUtf8("doubleSpinBox_X"));
+        doubleSpinBox_X->setGeometry(QRect(30, 80, 65, 26));
+        doubleSpinBox_Y = new QDoubleSpinBox(centralwidget);
+        doubleSpinBox_Y->setObjectName(QString::fromUtf8("doubleSpinBox_Y"));
+        doubleSpinBox_Y->setGeometry(QRect(30, 150, 65, 26));
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(30, 60, 67, 17));
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(30, 130, 67, 17));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -63,9 +76,10 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "GO", nullptr));
         label->setText(QString());
+        label_2->setText(QCoreApplication::translate("MainWindow", "X Pos", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Y Pos", nullptr));
     } // retranslateUi
 
 };

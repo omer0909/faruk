@@ -10,7 +10,7 @@
 #include <chrono>
 #include <memory>
 // uic -o untitled.h untitled.ui
-#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
@@ -21,7 +21,7 @@ class RosControllerThread : public rclcpp::Node, protected QThread {
 	RosControllerThread() : Node("cpp_robot_controller") {
 		RCLCPP_INFO(this->get_logger(), "created");
 		publisherTwist = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 1);
-		publisherSetPose = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/set_pose", 1);
+		publisherSetPose = this->create_publisher<geometry_msgs::msg::PoseStamped>("/goal_pose", 1);
 	}
 
 	void ImageEventSetup(std::function<void(sensor_msgs::msg::Image::SharedPtr)> event) {
@@ -42,10 +42,11 @@ class RosControllerThread : public rclcpp::Node, protected QThread {
 	}
 
 	rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisherTwist;
-	rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr publisherSetPose;
+	rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr publisherSetPose;
 	rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscriberImage;
 	std::shared_ptr<RosControllerThread> this_shared;
 };
+
 
 class WindowManager : protected Ui_MainWindow {
    public:
@@ -62,15 +63,14 @@ class WindowManager : protected Ui_MainWindow {
 			// message.angular.z = 2.0;
 			// ros->publisherTwist->publish(message);
 
-			auto posMessage = geometry_msgs::msg::PoseWithCovarianceStamped();
-			posMessage.pose.pose.position.x = 5;
-			posMessage.pose.pose.position.y = 5;
-			ros->publisherSetPose->publish(posMessage);
-		});
+			auto posMessage = geometry_msgs::msg::PoseStamped();
+			posMessage.pose.position.x = doubleSpinBox_X->value();
+			posMessage.pose.position.y = doubleSpinBox_Y->value();
+			posMessage.header.frame_id = "map";
 
-		QObject::connect(pushButton_2, &QPushButton::clicked, [this]() {
-			auto message = geometry_msgs::msg::Twist();
-			ros->publisherTwist->publish(message);
+			//pushButton->setText(std::to_string(posMessage.pose.orientation.w).c_str());
+
+			ros->publisherSetPose->publish(posMessage);
 		});
 
 		window.show();
